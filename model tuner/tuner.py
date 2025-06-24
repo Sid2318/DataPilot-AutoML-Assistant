@@ -11,7 +11,7 @@ from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.metrics import accuracy_score, mean_squared_error
 import matplotlib.pyplot as plt
 import warnings
-import optuna.visualization as vis
+
 warnings.filterwarnings('ignore')
 
 class ModelTuner:
@@ -133,16 +133,24 @@ class ModelTuner:
     def generate_report(self):
         report = []
         for model_name in self.best_params:
-            report.append(f"Model: {model_name}\nBest Score: {self.best_scores[model_name]:.4f}\nBest Params: {self.best_params[model_name]}\n")
+            score = self.best_scores[model_name]
+            problem_type = (
+                "classification" if score > 0 else "regression"
+            )  # Based on score sign
+
+            if problem_type == "classification":
+                report.append(
+                    f"Model: {model_name}\nAccuracy: {score:.4f}\nBest Params: {self.best_params[model_name]}\n"
+                )
+            else:
+                report.append(
+                    f"Model: {model_name}\nMean Squared Error: {score:.4f}\nBest Params: {self.best_params[model_name]}\n"
+                )
         return '\n'.join(report)
 
     def plot_history(self, model_name):
         if model_name not in self.study_results:
             print(f"No tuning history for {model_name}")
             return
-        # study = self.study_results[model_name]
-        study = self.studies.get(model_name)
-        if study:
-            fig = optuna.visualization.plot_optimization_history(study)
-            plt.title(f"Optimization History - {model_name}")
-            fig.show()
+        study = self.study_results[model_name]
+        return study
