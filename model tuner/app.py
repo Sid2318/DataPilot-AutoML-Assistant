@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from tuner import ModelTuner
 from sklearn.preprocessing import LabelEncoder
+from optuna.visualization import plot_contour,plot_optimization_history,plot_parallel_coordinate,plot_slice,plot_param_importances
+
 
 # Configure Streamlit page
 st.set_page_config(page_title="Model Tuner - Optuna", layout="wide")
@@ -54,7 +56,11 @@ if uploaded_file:
             for model_name in model_names:
                 st.write(f"🔧 Tuning: **{model_name}**")
                 result = tuner.tune_model(model_name, X.values, y, problem_type=problem_type, scoring=scoring, n_trials=30)
-                st.success(f"✅ {model_name} tuned! Best Score: {result['best_score']:.4f}")
+                if problem_type == 'classification':
+                    st.success(f"✅ {model_name} tuned! \nAccuracy: {result['best_score']:.4f}")
+                else:
+                    st.success(f"✅ {model_name} tuned!  \nMean Squared Error : {result['best_score']:.4f}")
+                
                 results.append((model_name, result['best_score']))
 
         # Generate report and store it
@@ -84,6 +90,14 @@ if "report" in st.session_state and "best_model" in st.session_state:
         index=st.session_state.model_names.index(st.session_state.best_model)
     )
 
+    tuner = st.session_state.tuner
+
     if st.button("📈 Show Optimization History"):
-        st.session_state.tuner.plot_history(selected_model)
-        print(selected_model)
+        study = tuner.plot_history(selected_model)
+        fig1 = plot_optimization_history(study)
+        st.plotly_chart(fig1, use_container_width=True)
+        # fig2 = plot_contour(study)
+        fig2 =plot_parallel_coordinate(study)
+        st.plotly_chart(fig2,use_container_width=True)
+        fig3 =plot_param_importances(study)
+        st.plotly_chart(fig3,use_container_width=True)
