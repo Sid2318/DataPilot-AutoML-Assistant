@@ -13,8 +13,8 @@ from optuna.visualization import plot_contour,plot_optimization_history,plot_par
 import streamlit.components.v1 as components
 import pandas as pd
 
-st.set_page_config(page_title="AutoML Assistant", page_icon="🚀", layout="wide")
-st.title("🚀 AutoML Assistant")
+st.set_page_config(page_title="DataPilot-AutoML-Assistant", page_icon="🚀", layout="wide")
+st.title("🚀 DataPilot-AutoML-Assistant")
 
 # Step 1: Upload Dataset
 st.header("Step 1: Upload Dataset")

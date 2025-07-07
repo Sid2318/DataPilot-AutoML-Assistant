@@ -1,4 +1,4 @@
-# 🚀 AutoML Assistant
+# 🚀 DataPilot-AutoML-Assistant
 
 A comprehensive automated machine learning (AutoML) web application built with Streamlit that streamlines the entire machine learning pipeline from data cleaning to model deployment. This tool is designed to make machine learning accessible to both beginners and experts by automating complex processes while providing detailed insights and explanations.
 
