@@ -1,15 +1,13 @@
-pip install streamlit
-pip install scikit-learn
-pip install imbalanced-learn
-pip install pandas
-pip install numpy
-pip install seaborn
-pip install missingno
-pip install plotly
-pip install matplotlib
-pip install optuna
-pip install xgboost
-pip install lightgbm
-pip install openai
-pip install openai==0.28
-pip install google-generativeai
+streamlit
+scikit-learn
+imbalanced-learn
+pandas
+numpy
+seaborn
+missingno
+plotly
+matplotlib
+optuna
+xgboost
+lightgbm
+google-generativeai
